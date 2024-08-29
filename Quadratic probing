@@ -1,4 +1,7 @@
-#include <iostream> #include <cstdlib> #define T_S 10 using namespace std; enum EntryType {
+#include <iostream> 
+#include <cstdlib>
+#define T_S 10 using namespace std; 
+enum EntryType {
 Legi, Emp, Del};
 struct HashTableEntry { int e;
  
