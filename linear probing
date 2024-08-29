@@ -1,0 +1,111 @@
+
+#include<iostream>
+#include<limits.h>
+using namespace std;
+
+// Insert function with quadratic probing
+void Insert(int ary[], int hFn, int Size) {
+    int element, pos, n = 0;
+    cout << "Enter key element to insert\n";
+    cin >> element;
+
+    pos = element % hFn;
+    int i = 0; // Quadratic probing
+
+    while (ary[pos] != INT_MIN && ary[pos] != INT_MAX) {
+        pos = (element + i * i) % hFn; // Quadratic probing formula
+        i++;
+        n++;
+        if (n == Size) break;
+    }
+
+    if (n == Size)
+        cout << "Hash table is full\n";
+    else
+        ary[pos] = element; // Inserting element
+}
+
+// Delete function
+void Delete(int ary[], int hFn, int Size) {
+    int element, pos, n = 0;
+    cout << "Enter element to delete\n";
+    cin >> element;
+
+    pos = element % hFn;
+    int i = 0;
+
+    while (n++ != Size) {
+        if (ary[pos] == INT_MIN) {
+            cout << "Element not found in hash table\n";
+            break;
+        } else if (ary[pos] == element) {
+            ary[pos] = INT_MAX;
+            cout << "Element deleted\n";
+            break;
+        } else {
+            pos = (element + i * i) % hFn;
+            i++;
+        }
+    }
+
+    if (--n == Size)
+        cout << "Element not found in hash table\n";
+}
+
+// Search function
+void Search(int ary[], int hFn, int Size) {
+    int element, pos, n = 0;
+    cout << "Enter element you want to search\n";
+    cin >> element;
+
+    pos = element % hFn;
+    int i = 0;
+
+    while (n++ != Size) {
+        if (ary[pos] == element) {
+            cout << "Element found at index " << pos << "\n";
+            return;
+        } else if (ary[pos] == INT_MAX || ary[pos] != INT_MIN) {
+            pos = (element + i * i) % hFn;
+            i++;
+        }
+    }
+
+    cout << "Element not found in hash table\n";
+}
+
+// Display function
+void display(int ary[], int Size) {
+    cout << "Index\tValue\n";
+    for (int i = 0; i < Size; i++)
+        cout << i << "\t" << ary[i] << "\n";
+}
+
+int main() {
+    int Size, hFn, i, choice;
+    cout << "Enter size of hash table\n";
+    cin >> Size;
+    int ary[Size];
+
+    cout << "Enter hash function [if mod 10 enter 10]\n";
+    cin >> hFn;
+
+    for (i = 0; i < Size; i++)
+        ary[i] = INT_MIN;
+
+    do {
+        cout << "Enter your choice\n";
+        cout << " 1-> Insert\n 2-> Delete\n 3-> Display\n 4-> Searching\n 0-> Exit\n";
+        cin >> choice;
+
+        switch (choice) {
+            case 1: Insert(ary, hFn, Size); break;
+            case 2: Delete(ary, hFn, Size); break;
+            case 3: display(ary, Size); break;
+            case 4: Search(ary, hFn, Size); break;
+            default: cout << "Enter correct choice\n"; break;
+        }
+    } while (choice);
+
+    return 0;
+}
